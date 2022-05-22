@@ -19,11 +19,13 @@ class MyDevice extends Device {
       },
       timeout: TIMEOUT_SECONDS * 1000
     }).then(response => {
-      this.setCapabilityValue("measure_power",response.data[0].ActivePower*1000);
-      this.setCapabilityValue("meter_power",response.data[0].CounterReadingT1)
-      this.log(response.data[0]);
-    }).catch(error => this.log("ERROR: " + error.message))
-      .finally(() => { this.timeout = setTimeout(this.getActivePower.bind(this), interval_milliseconds, username, password, interval_milliseconds) });
+      // TO DO : PICK THE RIGHT DEVICE DATA IF THERE IS MORE THAN ONE DEVICE
+      this.setCapabilityValue("measure_power", response.data[0].ActivePower * 1000);
+      this.setCapabilityValue("meter_power", response.data[0].CounterReadingT1);
+      //      this.log(response.data[0]);
+    }).catch(error => {
+      this.log("ERROR: " + error.message);
+    }).finally(() => { this.timeout = setTimeout(this.getActivePower.bind(this), interval_milliseconds, username, password, interval_milliseconds) });
   }
 
   /**
@@ -31,7 +33,7 @@ class MyDevice extends Device {
    */
   async onInit() {
     const settings = this.getSettings();
-    this.getActivePower(settings.username,settings.password,INTERVAL_SECONDS*1000);
+    this.getActivePower(settings.username, settings.password, INTERVAL_SECONDS * 1000);
   }
 
   /**

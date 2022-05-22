@@ -1,3 +1,12 @@
+# TO DO 
+- REPORT FROM THE RIGHT DEVICE DATA IF THERE IS MORE THAN ONE DEVICE
+- Disable timer when a device is deleted
+- Test adding/removing devices
+- Test password update
+- Test behaviour with wrong credentials
+- Test longterm memory consumption
+- See if we can loose some of the node modules fat
+
 # Smart-Me
 
 This Homey App integrates with the [Smart-Me Kamstrup Module](https://web.smart-me.com/project/kamstrup-modul/), and thus makes it possible to follow your net electricity consumption/production in real-time.
