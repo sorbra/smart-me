@@ -1,23 +1,43 @@
 'use strict';
 
+const axios = require('axios');
 const { Device } = require('homey');
+const INTERVAL_SECONDS = 15;
+const TIMEOUT_SECONDS = 10;
+const SMARTME_DEVICES_URL = "https://smart-me.com/api/Devices";
 
 class MyDevice extends Device {
+
+  timeout = null;
+
+  async getActivePower(username, password, interval_milliseconds) {
+    return axios.get(
+      SMARTME_DEVICES_URL, {
+      auth: {
+        username: username,
+        password: password
+      },
+      timeout: TIMEOUT_SECONDS * 1000
+    }).then(response => {
+      this.setCapabilityValue("measure_power",response.data[0].ActivePower*1000);
+      this.setCapabilityValue("meter_power",response.data[0].CounterReadingT1)
+      this.log(response.data[0]);
+    }).catch(error => this.log("ERROR: " + error.message))
+      .finally(() => { this.timeout = setTimeout(this.getActivePower.bind(this), interval_milliseconds, username, password, interval_milliseconds) });
+  }
 
   /**
    * onInit is called when the device is initialized.
    */
   async onInit() {
-    this.log("Y");
-    this.log('XXX has been initialized'); 
+    const settings = this.getSettings();
+    this.getActivePower(settings.username,settings.password,INTERVAL_SECONDS*1000);
   }
 
   /**
    * onAdded is called when the user adds the device, called just after pairing.
    */
   async onAdded() {
-    this.log("Z");
-    this.log('XXX has been added');
   }
 
   /**
@@ -41,16 +61,12 @@ class MyDevice extends Device {
    * @param {string} name The new name
    */
   async onRenamed(name) {
-    this.log("X");
-    this.log('MyDevice was renamed to '+name);
   }
 
   /**
    * onDeleted is called when the user deleted the device.
    */
   async onDeleted() {
-    this.log("W");
-    this.log('XXX has been deleted');
   }
 
 }

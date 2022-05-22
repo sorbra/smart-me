@@ -6,12 +6,9 @@ const SMARTME_DEVICES_URL = "https://smart-me.com/api/Devices";
 const TIMEOUT_SECONDS = 10;
 
 class SmartMeDriver extends Driver {
-  /**
-   * onInit is called when the driver is initialized.
-   */
   async onInit() {
-    //    this.log('SmartMeDriver has been initialized');
   }
+
 
   async getSmartMeDevices(username, password, populateDevices) {
     return axios.get(
@@ -46,13 +43,12 @@ class SmartMeDriver extends Driver {
               id: element.Id
             },
             settings: {
-              USER_NAME: username,
-              PASSWORD: password
+              username: username,
+              password: password
             },
-            capabilities: ["meter_power"]
+            capabilities: ["meter_power","measure_power"]
           }
         });
-        // console.log(ndevices);
       }
 
       await this.getSmartMeDevices(username, password, populateDevices);

@@ -33,7 +33,8 @@
       },
       "class": "other",
       "capabilities": [
-        "meter_power"
+        "meter_power",
+        "measure_power"
       ],
       "platforms": [
         "local"
@@ -81,7 +82,31 @@
           "template": "add_devices"
         }
       ],
-      "id": "smart-me"
+      "id": "smart-me",
+      "settings": [
+        {
+          "id": "username",
+          "type": "text",
+          "label": {
+            "en": "Username"
+          },
+          "value": "John Doe",
+          "hint": {
+            "en": "The name of the user."
+          }
+        },
+        {
+          "id": "password",
+          "type": "password",
+          "label": {
+            "en": "Password"
+          },
+          "value": "Secret",
+          "hint": {
+            "en": "The password of the user."
+          }
+        }
+      ]
     }
   ]
 }
